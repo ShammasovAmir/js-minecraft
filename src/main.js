@@ -6,6 +6,7 @@ import "../style.css";
 import {createUI} from "./ui.js";
 import {PCFSoftShadowMap} from "three";
 import {Player} from "./player.js";
+import {Physics} from "./physics.js";
 
 const stats = new Stats();
 document.body.append(stats.dom);
@@ -26,11 +27,11 @@ controls.target.set(16, 0, 16);
 controls.update();
 
 const scene = new THREE.Scene();
+const player = new Player(scene);
+const physics = new Physics(scene);
 const world = new World();
 world.generate();
 scene.add(world);
-
-const player = new Player(scene);
 
 /**
  * @returns void
@@ -63,6 +64,7 @@ function animate() {
 
     requestAnimationFrame(animate);
     player.applyInputs(changeInTime);
+    physics.update(changeInTime, player, world);
     renderer.render(scene, player.controls.isLocked ? player.camera : orbitCamera);
     stats.update();
 
@@ -74,9 +76,9 @@ window.addEventListener('resize', () => {
     orbitCamera.updateProjectionMatrix();
     player.camera.aspect = window.innerWidth / window.innerHeight;
     player.camera.updateProjectionMatrix();
-   renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
 setupLights();
-createUI(world, player);
+createUI(world, player, physics);
 animate();
