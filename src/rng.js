@@ -1,3 +1,7 @@
+/**
+ * @typedef { import("./models/rng").RngInterface } RngType
+ */
+/** @implements {RngType} */
 export class RNG {
     m_w = 123456789;
     m_z = 987654321;

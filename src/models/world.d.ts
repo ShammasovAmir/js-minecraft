@@ -1,3 +1,5 @@
+import {RngInterface} from "./rng";
+
 interface WorldSizeInterface {
     width: number;
     height: number;
@@ -26,8 +28,9 @@ export interface WorldInterface {
     threshold: number;
     generate: () => void;
     initializeTerrain: () => void;
-    generateTerrain: () => void;
+    generateTerrain: (rng: RngInterface) => void;
     generateMeshes: () => void;
+    generateResources: (rng: RngInterface) => void;
     getBlock: (x: number, y: number, z: number) => BlockDataElement | null;
     setBlockId: (x: number, y: number, z: number, id: number) => void;
     setBlockInstanceId: (x: number, y: number, z: number, instanceId: number) => void;
